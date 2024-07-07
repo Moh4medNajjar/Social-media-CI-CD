@@ -54,16 +54,18 @@ app.use("/posts", postRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+const mongoUri = 'mongodb://20.250.160.48:27017/mydatabase'; // Replace with your MongoDB URI
 
-    /* ADD DATA ONE TIME */
-    // User.insertMany(users);
-    // Post.insertMany(posts);
-  })
-  .catch((error) => console.log(`${error} did not connect`));
+mongoose.connect(mongoUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log('Connected to MongoDB');
+  app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+
+  /* ADD DATA ONE TIME */
+  // User.insertMany(users);
+  // Post.insertMany(posts);
+})
+.catch((error) => console.error('Error connecting to MongoDB:', error));
